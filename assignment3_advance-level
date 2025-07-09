@@ -1,0 +1,140 @@
+#1. Tuple Operations
+fruits = ("apple", "banana", "mango", "pineapple", "strawberry", "papaya", "grape", "melon", "watermelon", "cherry")
+print(fruits[3:8])  # Slicing from index 3 to 7
+print("\n")
+a = len(fruits) 
+for i in range(a-1, -1, -1):    #range(start, stop, step)
+    print(fruits[i])
+fruits_list = list(fruits)
+fruits_list[2] = "lichi"  # Updating index 2
+fruits_updated = tuple(fruits_list)
+print("\n")
+print(fruits_updated)
+nested_tuple = (("apple", 10), ("papaya", 24), ("grape", 18))
+quan = [pair[1] for pair in nested_tuple]   # Access quantities
+print("\n", quan)
+
+#2. Advanced Set Logic
+stds_ai = {"Abhi", "dev", "divya", "ria", "isha", "ishika"}
+stds_ml = {"Chiya", "eesha", "Farha", "Gaurav", "Hema", "divya", "ria"}
+both_courses = stds_ai.intersection(stds_ml)    #Finding students who enrolled in both courses
+print("\nEnrolled in both courses:", both_courses)
+only_1 = stds_ai.symmetric_difference(stds_ml)   #Enrolled in only one course (either AI or ML but not both)
+print("\nEnrolled in only one course:", only_1)
+any_course = stds_ai.union(stds_ml)   #Enrolled in at least one course
+print("\nEnrolled in at least one course:", any_course)
+
+full_class = {"Abhi", "dev", "divya", "ria", "isha", "ishika", "Eva", "Chiya", "eesha", "Farha", "Gaurav", "Hema", "Jack", "anaya", "raj"} #Not enrolled in either course (from a full class list)
+not_enrol = full_class.difference(stds_ai.union(stds_ml))
+print("\nNot enrolled in either course:", not_enrol)
+
+long_list = ["Abhi", "dev", "Chiya" "divya", "ria", "dev", "ishika", "Eva", "Chiya"]
+unique_stds = set(long_list)
+print("\nUnique students:", unique_stds)
+
+#3. Dictionary Manipulation
+library = {
+    "Room on the Roof": True,
+    "Ikigai": False,
+    "The wings of Fire": True,
+    "Who moved my cheez": True,
+    "Rich dad poor dad": False
+}
+library["Atomic Habits"] = True  ## Adding a new book
+
+def available_books(library_dict):   #Getting list of available books
+    return [title for title, available in library_dict.items() if available]
+available = available_books(library)
+print("\nAvailable books:", available)
+
+library_details = {
+    "Room on the Roof": {"author": "Ruskin Bond", "year": 1948, "available": True},
+    "Ikigai": {"author": "G. P.", "year": 1935, "available": False},
+    "The wings of Fire": {"author": "APJ Abdul Kalam", "year": 1964, "available": True},
+    "Who moved my cheez": {"author": "J. B.", "year": 1912, "available": True},
+    "Rich dad poor dad": {"author": "A. K.", "year": 1851, "available": False},
+    "Atomic Habits": {"author": "P. L.", "year": 1982, "available": True}
+}
+
+sort_books = sorted(library_details.items(), key=lambda item: item[1]["year"])  # SortING books based on year
+print("\nBooks sorted by year:")
+for title, details in sort_books:
+    print(f"{title}: {details['year']}")
+
+# 4. Functional Programming Challenge
+# a) students with marks > 85
+def filter_stds(stds):
+    return [student for student in stds if student[1] > 85]
+# b) frequency of each character in a string
+def character_count(s):
+    count_dict = {}
+    for char in s:
+        count_dict[char] = count_dict.get(char, 0) + 1
+    return count_dict
+# c) transpose of a matrix
+def matrix_transpose(matrix):
+    if not matrix:
+        return []
+    return [list(row) for row in zip(*matrix)]
+# d) min, max, average, mode (without libraries)
+def list_stats(numbers):
+    min_val = min(numbers)
+    max_val = max(numbers)
+    avg = sum(numbers) / len(numbers)
+    mode_dict = {}    # mode calculation
+    for num in numbers: 
+        mode_dict[num] = mode_dict.get(num, 0) + 1
+    max_freq = max(mode_dict.values())
+    modes = [k for k, v in mode_dict.items() if v == max_freq]
+    mode_value = modes[0] if modes else None
+    return {
+        'min': min_val,
+        'max': max_val,
+        'average': avg,
+        'mode': mode_value
+    }
+# Example usages:
+stds_list = [("Jigar", 79), ("Aman", 86), ("Babli", 71), ("Eesha", 92)]
+filtered_students = filter_stds(stds_list)
+print("\nStudents scoring > 85:", filtered_students)
+
+sample_string = "hello world"
+print("\nCharacter count:", character_count(sample_string))
+
+matrix = [[1, 2], [3, 4], [5, 6]]
+print("Original matrix:", matrix)
+print("\nTransposed matrix:", matrix_transpose(matrix))
+
+numbers = [1, 2, 2, 3, 4, 4, 4, 5]
+print("\nStatistics:", list_stats(numbers))
+
+#5. Mini Project: Student Grade Book System
+def grade_book():
+    students = {}
+    n = int(input("Enter number of students: "))
+    for _ in range(n):
+        name = input("Enter student name: ")
+        marks = []
+        for subj in range(1,4):
+            mark = float(input(f"Enter marks for subject {subj}: "))
+            marks.append(mark)
+        students[name] = marks
+
+    students_avg = {}       # Calculations and sorting
+    for name, marks in students.items():
+        avg = sum(marks)/len(marks)
+        if avg >= 90:
+            grade = 'A'
+        elif avg >= 80:
+            grade = 'B'
+        else:
+            grade = 'C'
+        students_avg[name] = {'marks': marks, 'average': avg, 'grade': grade}
+
+    # Sorted list based on average marks (descending)
+    sorted_students = sorted(students_avg.items(), key=lambda item: item[1]['average'], reverse=True)
+
+    print("\nStudent Performance:")
+    for name, info in sorted_students:
+        print(f"{name}: Average = {info['average']:.2f}, Grade = {info['grade']}")
+grade_book()
