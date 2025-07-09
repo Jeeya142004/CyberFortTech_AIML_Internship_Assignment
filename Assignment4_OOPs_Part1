@@ -1,0 +1,95 @@
+#1. Student Management System
+class Student:
+    def __init__(self, name, roll_no, marks):
+        self.name = name
+        self.roll_no = roll_no
+        self.marks = marks
+    def display_info(self):
+        print(f"Student Name: {self.name}")
+        print(f"Roll No: {self.roll_no}")
+        print(f"Marks: {self.marks}\n")
+
+# Creating two student objects
+std1 = Student("Janvi", 21, [88, 92, 84])
+std2 = Student("Bittu", 12, [74, 86, 90])
+std1.display_info()
+std2.display_info()
+
+#2. Apply Encapsulation to Student Class
+class StudentEncapsulated:
+    def __init__(self, name, roll_no, marks):
+        self.name = name
+        self.roll_no = roll_no
+        self.__marks = marks  # Private attribute
+    def get_marks(self):
+        return self.__marks
+    def set_marks(self, new_marks):
+        if any(mark < 0 for mark in new_marks):
+            print("Marks cannot be negative. Please enter valid marks.")
+        else:
+            self.__marks = new_marks
+    def display_info(self):
+        print(f"Student Name: {self.name}")
+        print(f"Roll No: {self.roll_no}")
+        print(f"Marks: {self.__marks}\n")
+
+# Example usage
+student = StudentEncapsulated("Riyanshi", 33, [73, 86, 89])
+student.display_info()
+
+# Trying to update marks
+student.set_marks([90, -10, 95])  # Should show error
+student.set_marks([95, 88, 92])   # Valid update
+student.display_info()
+
+#3. Simulate a Bank Account
+class BankAccount:
+    def __init__(self, account_holder, balance=0):
+        self.account_holder = account_holder
+        self.__balance = balance  # Private attribute
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            print(f"Deposited {amount}. New balance: {self.__balance}")
+        else:
+            print("Deposit amount must be positive.")
+    def withdraw(self, amount):
+        if amount > self.__balance:
+            print("Insufficient balance.")
+        elif amount <= 0:
+            print("Withdrawal amount must be positive.")
+        else:
+            self.__balance -= amount
+            print(f"Withdrew {amount}. New balance: {self.__balance}")
+    def display_balance(self):
+        print(f"Balance for {self.account_holder}: {self.__balance}\n")
+
+# Testing the BankAccount
+account = BankAccount("Dev", 5200)
+account.display_balance()
+account.deposit(2200)
+account.withdraw(1700)
+account.withdraw(7000)  # Should show insufficient balance
+account.deposit(-50)   # Invalid deposit
+account.display_balance()
+
+#4. Temperature Converter
+class TemperatureConverter:
+    def celsius_to_fahrenheit(self, celsius):
+        return (celsius * 9/5) + 32
+    def fahrenheit_to_celsius(self, fahrenheit):
+        return (fahrenheit - 32) * 5/9
+# User interaction
+converter = TemperatureConverter()
+temp = float(input("Enter temperature: "))
+choice = input("Convert to (F)ahrenheit or (C)elsius? Choose 'F' or 'C': ").upper()
+if choice == 'F':
+    result = converter.celsius_to_fahrenheit(temp)
+    print(f"{temp}°C is {result:.2f}°F")
+elif choice == 'C':
+    result = converter.fahrenheit_to_celsius(temp)
+    print(f"{temp}°F is {result:.2f}°C")
+else:
+    print("Invalid choice. Please select 'F' or 'C'.")
+    
+    
